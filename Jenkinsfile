@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages {
-        stage('Clear Preveious Files') {
+        stage('Clear Previous Files') {
             steps {
                 sh '''
                 rm -rf *
@@ -28,6 +28,20 @@ pipeline {
                 rm -rf passive_liveliness/
                 rm README.md
                 '''
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def dockerImage = docker.build("CICD-PassiveLiveliness:latest")
+                }
+            }
+        }
+        
+        stage('Run Container') {
+            steps {
+                sh 'docker-compose up -d'
             }
         }
     }
