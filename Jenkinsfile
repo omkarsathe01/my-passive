@@ -4,21 +4,21 @@ pipeline {
     stages {
         stage('Clear Previous Files') {
             steps {
-                sh '''
-                rm -rf *
-                '''
+                echo 'Clearing previous files...'
+                sh 'rm -rf *'
             }
         }
         
         stage('Clone PassiveLiveliness') {
             steps {
-                echo "Cloning.."
+                echo 'Cloning repository...'
                 git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
             }
         }
 
         stage('PassiveLiveliness Setup') {
             steps {
+                echo 'Setting up PassiveLiveliness...'
                 sh '''
                 cd passive_liveliness/
                 rm -rf start.sh
@@ -31,17 +31,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Image and Run Container') {
             steps {
-                script {
-                    def dockerImage = docker.build("CICD-PassiveLiveliness:latest")
-                }
-            }
-        }
-        
-        stage('Run Container') {
-            steps {
-                sh 'docker-compose up -d'
+                echo 'Building Docker image and running container...'
+                // Stop any existing containers
+                sh 'docker-compose down || true'
+                // Build and run the container
+                sh 'docker-compose up -d --build'
             }
         }
     }
