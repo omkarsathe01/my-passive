@@ -56,7 +56,7 @@ pipeline {
             steps {
                 echo 'Building Docker image and running container...'
                 // Stop any existing containers
-                sh 'docker-compose down || true'
+                // sh 'docker-compose down || true'
                 // Build and run the container
                 sh 'docker-compose up -d --build'
             }
