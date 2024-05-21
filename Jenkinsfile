@@ -6,7 +6,6 @@ pipeline {
             steps {
                 echo 'Clearing unnecessary files...'
                 sh '''
-                ls -ltra
                 rm -rf *
                 '''
             }
@@ -18,11 +17,6 @@ pipeline {
                 dir('CICD-PassiveLiveliness') {
                     git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
                 }
-                sh '''
-                pwd
-                ls -ltra
-                ls CICD-PassiveLiveliness/ -ltra
-                '''
             }
         }
 
@@ -32,11 +26,6 @@ pipeline {
                 dir('my-passive') {
                     git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/omkarsathe01/my-passive/'
                 }
-                sh '''
-                pwd
-                ls -ltra
-                ls my-passive/ -ltra
-                '''
             }
         }
 
