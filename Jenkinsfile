@@ -2,10 +2,16 @@ pipeline {
     agent any
     
     stages {
-        stage('Clear Previous Files') {
+        stage('Clear Unnecessary Files') {
             steps {
-                echo 'Clearing previous files...'
-                sh 'rm -rf *'
+                echo 'Clearing unnecessary files...'
+                sh '''
+                ls
+                find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
+                ls
+                find . -type d ! -name '.' ! -name 'resources' -exec rm -rf {} +
+                ls
+                '''
             }
         }
         
