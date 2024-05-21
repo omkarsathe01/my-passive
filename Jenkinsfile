@@ -4,48 +4,51 @@ pipeline {
     stages {
         stage('Clear Unnecessary Files') {
             steps {
-                sh 'ls -ltra'
                 echo 'Clearing unnecessary files...'
                 sh '''
-                find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
-                find . -type d ! -name '.' -exec rm -rf {} +
+                ls -ltra
+                // find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
+                // ls
+                // find . -type d ! -name '.' ! -name 'resources' -exec rm -rf {} +
+                ls
                 '''
-                sh 'ls -ltra'
-            }
-        }
-        
-        stage('Clone PassiveLiveliness') {
-            steps {
-                echo 'Cloning repository...'
-                sh '''
-                mkdir CICD-PassiveLiveliness
-                cd CICD-PassiveLiveliness
-                '''
-                git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
-                sh 'ls -ltra'
             }
         }
 
-        stage('PassiveLiveliness Setup') {
+        stage('Clone First Repository') {
             steps {
-                echo 'Setting up PassiveLiveliness...'
+                echo 'Cloning first repository...'
+                dir('repo1') {
+                    git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
+                }
+            }
+        }
+
+        stage('Clone Second Repository') {
+            steps {
+                echo 'Cloning second repository...'
+                dir('repo2') {
+                    git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/yourusername/yourprojectrepo/'
+                }
+            }
+        }
+
+        stage('Setup') {
+            steps {
+                echo 'Setting up project...'
                 sh '''
-                pwd
-                cd passive_liveliness/
-                rm -rf start.sh requirements.txt
-                mv * ..
-                cd ..
-                rm -rf passive_liveliness/
+                # Move necessary files from the second repository to the workspace root
+                mv repo2/* .
+                
+                # Remove unnecessary files from the workspace root
+                rm -rf repo2
                 '''
-                sh 'ls -ltra'
             }
         }
 
         stage('Build Image and Run Container') {
             steps {
                 echo 'Building Docker image and running container...'
-                sh 'pwd'
-                sh 'ls -ltra'
                 // Stop any existing containers
                 sh 'docker-compose down || true'
                 // Build and run the container
