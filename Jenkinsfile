@@ -15,13 +15,13 @@ pipeline {
         stage('Clone First Repository') {
             steps {
                 echo 'Cloning first repository...'
-                dir('repo1') {
+                dir('CICD-PassiveLiveliness') {
                     git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
                 }
                 sh '''
                 pwd
                 ls -ltra
-                ls repo1/ -ltra
+                ls CICD-PassiveLiveliness/ -ltra
                 '''
             }
         }
@@ -29,13 +29,13 @@ pipeline {
         stage('Clone Second Repository') {
             steps {
                 echo 'Cloning second repository...'
-                dir('repo2') {
+                dir('my-passive') {
                     git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/omkarsathe01/my-passive/'
                 }
                 sh '''
                 pwd
                 ls -ltra
-                ls repo2/ -ltra
+                ls my-passive/ -ltra
                 '''
             }
         }
@@ -44,19 +44,19 @@ pipeline {
             steps {
                 echo 'Setting up project...'
                 sh '''
-                # Remove start.sh and requirements.sh from repo1
-                rm -rf repo1/start.sh repo1/requirements.sh repo1/.git
-                rm -rf repo2/.git
+                # Remove start.sh and requirements.sh from CICD-PassiveLiveliness
+                rm -rf CICD-PassiveLiveliness/passive_liveliness/start.sh CICD-PassiveLiveliness/passive_liveliness/requirements.sh CICD-PassiveLiveliness/passive_liveliness/.git
+                rm -rf my-passive/.git
 
-                # Move necessary files from the repo1 to the workspace root
-                mv repo1/* .
+                # Move necessary files from the CICD-PassiveLiveliness to the workspace root
+                mv CICD-PassiveLiveliness/passive_liveliness/* .
                 
                 # Move necessary files from the second repository to the workspace root
-                mv repo2/* .
+                mv my-passive/* .
                 
                 # Remove unnecessary files from the workspace root
-                rm -rf repo2
-                rm -rf repo1
+                rm -rf my-passive
+                rm -rf CICD-PassiveLiveliness
 
                 ls -ltra
                 '''
