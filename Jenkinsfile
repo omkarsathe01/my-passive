@@ -6,11 +6,8 @@ pipeline {
             steps {
                 echo 'Clearing unnecessary files...'
                 sh '''
-                ls
                 find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
-                ls
                 find . -type d ! -name '.' ! -name 'resources' -exec rm -rf {} +
-                ls
                 '''
             }
         }
@@ -27,12 +24,10 @@ pipeline {
                 echo 'Setting up PassiveLiveliness...'
                 sh '''
                 cd passive_liveliness/
-                rm -rf start.sh
-                rm -rf requirements.txt
+                rm -rf start.sh requirements.txt
+                mv * ..
                 cd ..
-                mv passive_liveliness/* .
                 rm -rf passive_liveliness/
-                rm README.md
                 '''
             }
         }
@@ -40,7 +35,6 @@ pipeline {
         stage('Build Image and Run Container') {
             steps {
                 echo 'Building Docker image and running container...'
-                sh 'ls'
                 // Stop any existing containers
                 sh 'docker-compose down || true'
                 // Build and run the container
