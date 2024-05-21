@@ -7,10 +7,7 @@ pipeline {
                 echo 'Clearing unnecessary files...'
                 sh '''
                 ls -ltra
-                // find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
-                // ls
-                // find . -type d ! -name '.' ! -name 'resources' -exec rm -rf {} +
-                ls
+                rm -rf *
                 '''
             }
         }
@@ -28,7 +25,7 @@ pipeline {
             steps {
                 echo 'Cloning second repository...'
                 dir('repo2') {
-                    git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/yourusername/yourprojectrepo/'
+                    git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/omkarsathe01/my-passive/'
                 }
             }
         }
