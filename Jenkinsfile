@@ -40,6 +40,7 @@ pipeline {
         stage('Build Image and Run Container') {
             steps {
                 echo 'Building Docker image and running container...'
+                sh 'ls'
                 // Stop any existing containers
                 sh 'docker-compose down || true'
                 // Build and run the container
