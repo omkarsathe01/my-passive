@@ -18,6 +18,11 @@ pipeline {
                 dir('repo1') {
                     git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
                 }
+                sh '''
+                pwd
+                ls -ltra
+                ls repo1/ -ltra
+                '''
             }
         }
 
@@ -27,6 +32,11 @@ pipeline {
                 dir('repo2') {
                     git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/omkarsathe01/my-passive/'
                 }
+                sh '''
+                pwd
+                ls -ltra
+                ls repo2/ -ltra
+                '''
             }
         }
 
@@ -34,11 +44,19 @@ pipeline {
             steps {
                 echo 'Setting up project...'
                 sh '''
+                # Remove start.sh and requirements.sh from repo1
+                rm -rf repo1/start.sh repo1/requirements.sh repo1/.git
+                rm -rf repo2/.git
+
+                # Move necessary files from the repo1 to the workspace root
+                mv repo1/* .
+                
                 # Move necessary files from the second repository to the workspace root
                 mv repo2/* .
                 
                 # Remove unnecessary files from the workspace root
                 rm -rf repo2
+                rm -rf repo1
                 '''
             }
         }
