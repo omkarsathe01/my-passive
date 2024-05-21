@@ -57,6 +57,8 @@ pipeline {
                 # Remove unnecessary files from the workspace root
                 rm -rf repo2
                 rm -rf repo1
+
+                ls -ltra
                 '''
             }
         }
