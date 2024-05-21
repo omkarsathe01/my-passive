@@ -58,14 +58,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker-compose build app'
+                sh 'docker-compose build'
             }
         }
 
         stage('Run Docker Container') {
             steps {
                 echo 'Running Docker container...'
-                sh 'docker-compose up -d app'
+                sh 'docker-compose up -d'
             }
         }
     }
