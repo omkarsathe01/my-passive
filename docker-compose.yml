@@ -9,3 +9,5 @@ services:
     command: ["/bin/bash"]
     volumes:
       - .:/app
+    environment:
+      - ENV_VAR_NAME=value
