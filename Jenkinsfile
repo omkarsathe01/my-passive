@@ -17,6 +17,10 @@ pipeline {
         stage('Clone PassiveLiveliness') {
             steps {
                 echo 'Cloning repository...'
+                sh '''
+                mkdir CICD-PassiveLiveliness
+                cd CICD-PassiveLiveliness
+                '''
                 git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
                 sh 'ls -ltra'
             }
@@ -26,6 +30,7 @@ pipeline {
             steps {
                 echo 'Setting up PassiveLiveliness...'
                 sh '''
+                pwd
                 cd passive_liveliness/
                 rm -rf start.sh requirements.txt
                 mv * ..
