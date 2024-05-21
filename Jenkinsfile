@@ -9,6 +9,7 @@ pipeline {
         stage('Clear Unnecessary Files') {
             steps {
                 echo 'Clearing unnecessary files...'
+                sh 'ls -ltra'
                 sh 'rm -rf *'
             }
         }
