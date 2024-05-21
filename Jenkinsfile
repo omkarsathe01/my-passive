@@ -4,11 +4,13 @@ pipeline {
     stages {
         stage('Clear Unnecessary Files') {
             steps {
+                sh 'ls -ltra'
                 echo 'Clearing unnecessary files...'
                 sh '''
                 find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
                 find . -type d ! -name '.' ! -name 'resources' -exec rm -rf {} +
                 '''
+                sh 'ls -ltra'
             }
         }
         
@@ -16,6 +18,7 @@ pipeline {
             steps {
                 echo 'Cloning repository...'
                 git branch: 'main', credentialsId: 'personal-access-token', url: 'https://github.com/rammote/CICD-PassiveLiveliness/'
+                sh 'ls -ltra'
             }
         }
 
@@ -29,6 +32,7 @@ pipeline {
                 cd ..
                 rm -rf passive_liveliness/
                 '''
+                sh 'ls -ltra'
             }
         }
 
@@ -36,7 +40,7 @@ pipeline {
             steps {
                 echo 'Building Docker image and running container...'
                 sh 'pwd'
-                sh 'ls'
+                sh 'ls -ltra'
                 // Stop any existing containers
                 sh 'docker-compose down || true'
                 // Build and run the container
