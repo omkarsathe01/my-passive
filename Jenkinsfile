@@ -5,7 +5,11 @@ pipeline {
         stage('Clear Previous Files') {
             steps {
                 echo 'Clearing previous files...'
-                sh 'rm -rf *'
+                sh '''
+                ls
+                rm -rf *
+                ls
+                '''
             }
         }
         
