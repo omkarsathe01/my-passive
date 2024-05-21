@@ -9,8 +9,8 @@ pipeline {
         stage('Clear Unnecessary Files') {
             steps {
                 echo 'Clearing unnecessary files...'
-                sh 'ls -ltra'
-                sh 'rm -rf *'
+                bat 'dir'
+                bat 'del /Q *'
             }
         }
 
@@ -38,20 +38,23 @@ pipeline {
         stage('Setup') {
             steps {
                 echo 'Setting up project...'
-                sh '''
-                # Clean up repositories
-                rm -rf CICD-PassiveLiveliness/passive_liveliness/start.sh CICD-PassiveLiveliness/passive_liveliness/requirements.sh CICD-PassiveLiveliness/passive_liveliness/.git
-                rm -rf my-passive/.git
+                bat '''
+                REM Clean up repositories
+                del /Q /F CICD-PassiveLiveliness\\passive_liveliness\\start.sh
+                del /Q /F CICD-PassiveLiveliness\\passive_liveliness\\requirements.sh
+                rmdir /S /Q CICD-PassiveLiveliness\\.git
+                rmdir /S /Q my-passive\\.git
 
-                # Move necessary files to workspace root
-                mv CICD-PassiveLiveliness/passive_liveliness/* .
-                mv my-passive/* .
+                REM Move necessary files to workspace root
+                move CICD-PassiveLiveliness\\passive_liveliness\\* .
+                move my-passive\\* .
 
-                # Remove repositories directories
-                rm -rf CICD-PassiveLiveliness my-passive
+                REM Remove repositories directories
+                rmdir /S /Q CICD-PassiveLiveliness
+                rmdir /S /Q my-passive
 
-                # List files for verification
-                ls -ltra
+                REM List files for verification
+                dir
                 '''
             }
         }
@@ -59,14 +62,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker-compose build'
+                bat 'docker-compose build'
             }
         }
 
         stage('Run Docker Container') {
             steps {
                 echo 'Running Docker container...'
-                sh 'docker-compose up -d'
+                bat 'docker-compose up -d'
             }
         }
     }
