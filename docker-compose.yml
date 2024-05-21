@@ -1,13 +1,10 @@
-version: "3"
+version: '3.8'
+
 services:
-  app:
-    build: .
+  web:
+    image: mightysanjay/my-passive:v1
     ports:
       - "5000:5000"
-    stdin_open: true
-    tty: true
-    command: ["/bin/bash"]
-    volumes:
-      - .:/app
-    environment:
-      - ENV_VAR_NAME=value
+    stdin_open: true  # Equivalent to -i
+    tty: true         # Equivalent to -t
+    command: ["sh", "-c", "./start.sh && tail -f /dev/null"]
