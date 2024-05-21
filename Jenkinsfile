@@ -8,7 +8,7 @@ pipeline {
                 echo 'Clearing unnecessary files...'
                 sh '''
                 find . -type f ! -name 'Dockerfile' ! -name 'Jenkinsfile' ! -name 'docker-compose.yml' ! -name 'requirements.txt' ! -name 'start.sh' -delete
-                find . -type d ! -name '.' ! -name 'resources' -exec rm -rf {} +
+                find . -type d ! -name '.' -exec rm -rf {} +
                 '''
                 sh 'ls -ltra'
             }
