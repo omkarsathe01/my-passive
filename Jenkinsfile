@@ -41,6 +41,7 @@ pipeline {
                 bat '''
                 REM Clean up repositories
                 del /Q /F CICD-PassiveLiveliness\\passive_liveliness\\start.sh
+                del /Q /F CICD-PassiveLiveliness\\passive_liveliness\\wsgi.py
                 del /Q /F CICD-PassiveLiveliness\\passive_liveliness\\requirements.sh
                 rmdir /S /Q CICD-PassiveLiveliness\\.git
                 rmdir /S /Q my-passive\\.git
