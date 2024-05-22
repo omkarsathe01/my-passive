@@ -63,7 +63,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                bat 'docker-compose build'
+                bat 'docker build -t mightysanjay/my-passive .'
             }
         }
 
