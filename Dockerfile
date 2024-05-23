@@ -4,13 +4,15 @@ WORKDIR /app
 
 COPY . .
 
+# make /app executable
+
+# run commands separately
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     unzip \
     libglib2.0-0 \
-    libgl1-mesa-glx && \
-    rm -rf /var/lib/apt/lists/* && \
-    chmod +x /app/start.sh
+    libgl1-mesa-glx
 
 # Upgrade pip and install dependencies
 RUN pip install --upgrade pip && \
