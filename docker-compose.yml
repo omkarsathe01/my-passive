@@ -1,6 +1,6 @@
 services:
   web:
-    image: mightysanjay/my-passive:v3   
+    image: mightysanjay/my-passive
     build: .
     ports:
       - "5000:5000"
