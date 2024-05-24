@@ -7,6 +7,8 @@ COPY . .
 RUN chmod 777 /app
 
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
